@@ -1,0 +1,34 @@
+#pragma once
+
+#include <stack>
+
+#include "prcxx/IObservable.hpp"
+#include "prcxx/Expected.hpp"
+
+namespace prcxx {
+
+struct EvaluationChain
+{
+    [[nodiscard]]
+    bool empty() const;
+
+    [[nodiscard]]
+    bool contains_error() const;
+
+    void push(IObservableRef ref);
+
+    IObservableRef top();
+    void pop();
+
+    void register_error(Error error);
+    Error extract_last_error();
+
+    [[nodiscard]]
+    Error error() const;
+
+private:
+    std::stack<IObservableRef> properties;
+    Error last_error;
+};
+
+} // namespace prcxx
