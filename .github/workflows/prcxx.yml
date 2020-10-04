@@ -6,6 +6,7 @@ env:
   BUILD_TYPE: Release
   VCPKG_DIR: $HOME/vcpkg
   VCPKG_TOOLCHAIN: $VCPKG_DIR/scripts/buildsystems/vcpkg.cmake
+  CMAKE_VERSION: 3.18.3
 
 jobs:
   build:
@@ -14,6 +15,16 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
+    - name: Build cmake
+    - working-directory: $HOME
+      run: |
+        wget https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION.tar.gz
+        tar -zxvf cmake-$CMAKE_VERSION.tar.gz
+        cd cmake-$CMAKE_VERSION
+        sudo ./bootsrap -- -DCMAKE_BUILD_TYPE:STRING=Release
+        make
+        make install
+
     - name: Install vcpkg dependencies
       run: |
         sudo apt-get update
