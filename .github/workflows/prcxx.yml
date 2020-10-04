@@ -21,8 +21,7 @@ jobs:
         wget https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION-Linux-x86_64.tar.gz
         tar -zxf cmake-$CMAKE_VERSION-Linux-x86_64.tar.gz
         cd cmake-$CMAKE_VERSION-Linux-x86_64
-        export CMAKE_PATH=$(which cmake)
-        sudo update-alternatives --install $CMAKE_PATH cmake $(pwd)/bin/cmake 10
+        sudo update-alternatives --set cmake $(pwd)/bin/cmake
         cmake --version
 
     - name: Install vcpkg dependencies
