@@ -4,8 +4,6 @@ on: [push, pull_request]
 
 env:
   BUILD_TYPE: Release
-  VCPKG_DIR: vcpkg
-  VCPKG_TOOLCHAIN: $HOME/$VCPKG_DIR/scripts/buildsystems/vcpkg.cmake
 
 jobs:
   build:
@@ -17,7 +15,7 @@ jobs:
     - name: Install vcpkg dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install build-essential tar curl zip unzip tree
+        sudo apt-get install build-essential tar curl zip unzip ninja-build
     
     - name: Build vcpkg
       run: |
@@ -28,11 +26,7 @@ jobs:
     - name: Install catch2
       run: |
         cd $HOME
-        $VCPKG_DIR/vcpkg install catch2
-        echo $HOME/$VCPKG_DIR
-        echo $HOME/$VCPKG_DIR/scripts/buildsystems/vcpkg.cmake
-        tree $HOME/$VCPKG_DIR/
-        file $HOME/$VCPKG_DIR/scripts/buildsystems/vcpkg.cmake
+        vcpkg/vcpkg install catch2
       
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
@@ -41,8 +35,8 @@ jobs:
       shell: bash
       working-directory: ${{runner.workspace}}/build
       run: | 
-        echo $HOME/$VCPKG_DIR/scripts/buildsystems/vcpkg.cmake
-        CXX=clang++-10 CC=clang10 cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_TOOLCHAIN_FILE=$VCPKG_TOOLCHAIN
+        file $HOME/$VCPKG_DIR/scripts/buildsystems/vcpkg.cmake
+        CXX=clang++-10 CC=clang10 cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_TOOLCHAIN_FILE=$HOME/$VCPKG_DIR/scripts/buildsystems/vcpkg.cmake -G "Ninja"
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
