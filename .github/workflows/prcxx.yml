@@ -31,6 +31,8 @@ jobs:
         $VCPKG_DIR/vcpkg install catch2
         echo $HOME/$VCPKG_DIR
         echo $HOME/$VCPKG_DIR/scripts/buildsystems/vcpkg.cmake
+        tree $HOME/$VCPKG_DIR/
+        file $HOME/$VCPKG_DIR/scripts/buildsystems/vcpkg.cmake
       
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
