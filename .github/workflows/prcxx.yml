@@ -20,8 +20,8 @@ jobs:
     - name: Build vcpkg
       run: |
         cd $HOME
-        git clone https://github.com/microsoft/vcpkg $VCPKG_DIR
-        $VCPKG_DIR/bootstrap-vcpkg.sh -disableMetrics
+        git clone https://github.com/microsoft/vcpkg
+        vcpkg/bootstrap-vcpkg.sh -disableMetrics
         
     - name: Install catch2
       run: |
@@ -35,8 +35,8 @@ jobs:
       shell: bash
       working-directory: ${{runner.workspace}}/build
       run: | 
-        file $HOME/$VCPKG_DIR/scripts/buildsystems/vcpkg.cmake
-        CXX=clang++-10 CC=clang10 cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_TOOLCHAIN_FILE=$HOME/$VCPKG_DIR/scripts/buildsystems/vcpkg.cmake -G "Ninja"
+        file $HOME/vcpkg/scripts/buildsystems/vcpkg.cmake
+        CXX=clang++-10 CC=clang10 cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_TOOLCHAIN_FILE=$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake -G "Ninja"
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
