@@ -15,15 +15,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Build cmake
+    - name: Downloading cmake
       run: |
         cd $HOME
-        wget https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION.tar.gz
-        tar -zxf cmake-$CMAKE_VERSION.tar.gz
-        cd cmake-$CMAKE_VERSION
-        sudo ./bootstrap -- -DCMAKE_BUILD_TYPE:STRING=Release
-        sudo make -s
-        sudo make install
+        wget https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION-Linux-x86_64.tar.gz
+        tar -zxf cmake-$CMAKE_VERSION-Linux-x86_64.tar.gz
+        cd cmake-$CMAKE_VERSION-Linux-x86_64
+        sudo update-alternatives --install /usr/bin/cmake cmake $(pwd)/bin/cmake 10
+        cmake --version
 
     - name: Install vcpkg dependencies
       run: |
