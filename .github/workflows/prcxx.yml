@@ -17,7 +17,7 @@ jobs:
     
     - name: Build cmake
     - working-directory: $HOME
-      run: |
+    - run: |
         wget https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION.tar.gz
         tar -zxvf cmake-$CMAKE_VERSION.tar.gz
         cd cmake-$CMAKE_VERSION
