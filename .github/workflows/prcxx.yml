@@ -17,7 +17,7 @@ jobs:
     - name: Install vcpkg dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install build-essential tar curl zip unzip
+        sudo apt-get install build-essential tar curl zip unzip tree
     
     - name: Build vcpkg
       run: |
