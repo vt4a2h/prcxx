@@ -7,8 +7,7 @@
 #include <vector>
 #include <stack>
 #include <string>
-#include <string_view>
-#include <ranges>
+#include <compare>
 #include <experimental/source_location>
 
 #include "Expected.hpp"

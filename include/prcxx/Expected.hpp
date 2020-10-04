@@ -2,6 +2,7 @@
 
 #include <string>
 #include <variant>
+#include <compare>
 
 namespace prcxx {
 
