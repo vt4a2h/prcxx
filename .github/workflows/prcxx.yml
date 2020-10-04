@@ -15,15 +15,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install build-essential tar curl zip unzip wget
+
     - name: Build cmake
       working-directory: $HOME
       run: |
         wget https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION.tar.gz
-
-    - name: Install vcpkg dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install build-essential tar curl zip unzip
     
     - name: Build vcpkg
       run: |
