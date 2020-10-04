@@ -1,0 +1,47 @@
+name: CMake
+
+on: [push, pull_request]
+
+env:
+  BUILD_TYPE: Release
+  VCPKG_DIR: $HOME/vcpkg
+  VCPKG_TOOLCHAIN: $VCPKG_DIR/scripts/buildsystems/vcpkg.cmake
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Install vcpkg dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install build-essential tar curl zip unzip
+    
+    - name: Build vcpkg
+      run: |
+        git clone https://github.com/microsoft/vcpkg $VCPKG_DIR
+        $VCPKG_DIR/bootstrap-vcpkg.sh -disableMetrics
+        
+    - name: Install catch2
+      run: $VCPKG_DIR/vcpkg install catch2
+      
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: CXX=clang++-10 CC=clang10 cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_TOOLCHAIN_FILE=$VCPKG_TOOLCHAIN
+
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      # Execute the build.  You can specify a specific target with "--target <NAME>"
+      run: cmake --build . --config $BUILD_TYPE
+
+    - name: Test
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: ctest -C $BUILD_TYPE
