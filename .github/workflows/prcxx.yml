@@ -21,7 +21,7 @@ jobs:
         wget https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION.tar.gz
         tar -zxvf cmake-$CMAKE_VERSION.tar.gz
         cd cmake-$CMAKE_VERSION
-        sudo ./bootsrap -- -DCMAKE_BUILD_TYPE:STRING=Release
+        sudo ./bootstrap -- -DCMAKE_BUILD_TYPE:STRING=Release
         make
         make install
 
