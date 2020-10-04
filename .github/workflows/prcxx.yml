@@ -27,6 +27,7 @@ jobs:
       run: |
         cd $HOME
         vcpkg/vcpkg install catch2
+        /usr/bin/clang++-10 --version
       
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
