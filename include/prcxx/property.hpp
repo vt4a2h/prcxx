@@ -8,7 +8,17 @@
 #include <stack>
 #include <string>
 #include <compare>
-#include <experimental/source_location>
+#ifdef __has_include
+#   if __has_include(<source_location>)
+#       include <source_location>
+#       define SOURCE_LOCATION std::source_location
+#    elif __has_include(<experimental/source_location>)
+#       include <experimental/source_location>
+#       define SOURCE_LOCATION std::experimental::source_location
+#    else
+#       Error: missing <source_location>
+#    endif
+#endif
 
 #include "Expected.hpp"
 #include "IObservable.hpp"
@@ -19,6 +29,8 @@
 #include "InvokableObserver.hpp"
 
 namespace prcxx {
+
+using source_location = SOURCE_LOCATION;
 
 template <Invokable Observable>
 IObservablePtr wrap_invokable(Observable &&observable)
@@ -97,7 +109,7 @@ public:
     }
 
     [[nodiscard]]
-    Expected<T> get(const std::experimental::source_location &sl = std::experimental::source_location::current()) const
+    Expected<T> get(const source_location &sl = source_location::current()) const
     {
         if (has_value()) {
             auto result = value->resolve();
@@ -136,7 +148,7 @@ public:
     }
 
 private: // Methods
-    static Error with_source_location(Error err, const std::experimental::source_location &sl)
+    static Error with_source_location(Error err, const source_location &sl)
     {
         // NOTE: waiting for std::format...
         if (!err.text.empty())

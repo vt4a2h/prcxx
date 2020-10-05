@@ -6,6 +6,15 @@
 
 namespace prcxx {
 
+template <Invokable F>
+struct ScopedFuncInvoker {
+    ScopedFuncInvoker(F f) : f(std::move(f)) {}
+    ~ScopedFuncInvoker() { std::invoke(f); }
+    F f;
+};
+template <Invokable F> ScopedFuncInvoker(F)
+-> ScopedFuncInvoker<std::decay_t<F>>;
+
 template <Invokable Callable>
 struct InvokableObserver : public BaseObserver
 {
@@ -46,15 +55,6 @@ struct InvokableObserver : public BaseObserver
 
     void update(std::any) final {}
     bool is_mutable() const final { return false; }
-
-    template <Invokable F>
-    struct ScopedFuncInvoker {
-        ScopedFuncInvoker(F f) : f(std::move(f)) {}
-        ~ScopedFuncInvoker() { std::invoke(f); }
-        F f;
-    };
-    template <Invokable F> ScopedFuncInvoker(F)
-    -> ScopedFuncInvoker<std::decay_t<F>>;
 
     struct ScopedVisitingSetter
     {
