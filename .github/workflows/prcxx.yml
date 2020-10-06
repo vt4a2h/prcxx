@@ -14,19 +14,19 @@ jobs:
       matrix:
         config:
           - {
-              name: "Build with gcc",
+              name: "Linux: build with gcc",
               os: ubuntu-20.04,
               vcpkg_root: "/usr/local/share/vcpkg",
               cc: "gcc-10", cxx: "g++-10"
             }
           - {
-              name: "Build with clang",
+              name: "Linux: build with clang",
               os: ubuntu-20.04,
               vcpkg_root: "/usr/local/share/vcpkg",
               cc: "clang-10", cxx: "clang++-10"
             }
           - {
-              name: "Build with clang",
+              name: "macOS: build with clang",
               os: macos-latest,
               vcpkg_root: "/usr/local/share/vcpkg",
               cc: "clang", cxx: "clang++"
@@ -35,11 +35,17 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Install dependencies
+    - name: Install dependencies (Linux)
       if: startsWith(matrix.config.os, 'ubuntu')
       run: |
-         sudo apt-get update
-         sudo apt-get install build-essential ninja-build build-essential g++-10
+        sudo apt-get update
+        sudo apt-get install build-essential ninja-build build-essential g++-10
+
+    - name: Install dependencies (macOS)
+      if: startsWith(matrix.config.os, 'macos')
+      run: |
+        brew update
+        brew install ninja
 
     - name: Install catch2
       working-directory: ${{ env.HOME }}
