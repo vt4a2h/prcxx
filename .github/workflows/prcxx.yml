@@ -30,7 +30,8 @@ jobs:
               os: macos-latest,
               vcpkg_root: "/usr/local/share/vcpkg",
               cc: "/usr/local/opt/llvm/bin/clang",
-              cxx: "/usr/local/opt/llvm/bin/clang++"
+              cxx: "/usr/local/opt/llvm/bin/clang++",
+              cxx_flags: "-stdlib=libc++"
             }
 
     steps:
@@ -58,7 +59,13 @@ jobs:
     - name: Configure CMake
       shell: bash
       working-directory: ${{runner.workspace}}/build
-      run: CXX=${{ matrix.config.cxx }} CC=${{ matrix.config.cc }} cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_TOOLCHAIN_FILE=${{ matrix.config.vcpkg_root }}/scripts/buildsystems/vcpkg.cmake -G "Ninja"
+      run: |
+        CXX=${{ matrix.config.cxx }} CC=${{ matrix.config.cc }} \
+        cmake $GITHUB_WORKSPACE \
+        -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+        -DCMAKE_TOOLCHAIN_FILE=${{ matrix.config.vcpkg_root }}/scripts/buildsystems/vcpkg.cmake \
+        -D "CMAKE_CXX_FLAGS:STRING=${{ matrix.config.cxx_flags }}"
+        -G "Ninja"
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
