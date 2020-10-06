@@ -25,6 +25,12 @@ jobs:
               vcpkg_root: "/usr/local/share/vcpkg",
               cc: "clang-10", cxx: "clang++-10"
             }
+          - {
+              name: "Build with clang",
+              os: macos-latest,
+              vcpkg_root: "/usr/local/share/vcpkg",
+              cc: "clang", cxx: "clang++"
+            }
 
     steps:
     - uses: actions/checkout@v2
