@@ -29,7 +29,8 @@ jobs:
               name: "macOS: build with clang",
               os: macos-latest,
               vcpkg_root: "/usr/local/share/vcpkg",
-              cc: "clang", cxx: "clang++"
+              cc: "/usr/local/bin/clang-10",
+              cxx: "/usr/local/bin/clang++-10"
             }
 
     steps:
@@ -46,6 +47,7 @@ jobs:
       run: |
         brew update
         brew install ninja
+        brew install llvm
 
     - name: Install catch2
       working-directory: ${{ env.HOME }}
