@@ -26,12 +26,11 @@ jobs:
               cc: "clang-10", cxx: "clang++-10"
             }
           - {
-              name: "macOS: build with clang",
+              name: "macOS: build with gcc",
               os: macos-latest,
               vcpkg_root: "/usr/local/share/vcpkg",
-              cc: "/usr/local/opt/llvm/bin/clang",
-              cxx: "/usr/local/opt/llvm/bin/clang++",
-              cxx_flags: "-stdlib=libc++"
+              cc: "/usr/local/opt/gcc/bin/gcc-10",
+              cxx: "/usr/local/opt/gcc/bin/g++-10",
             }
 
     steps:
@@ -47,7 +46,7 @@ jobs:
       if: startsWith(matrix.config.os, 'macos')
       run: |
         brew update
-        brew install ninja
+        brew install gcc ninja
 
     - name: Install catch2
       working-directory: ${{ env.HOME }}
@@ -64,7 +63,6 @@ jobs:
         cmake $GITHUB_WORKSPACE \
         -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
         -DCMAKE_TOOLCHAIN_FILE=${{ matrix.config.vcpkg_root }}/scripts/buildsystems/vcpkg.cmake \
-        -D "CMAKE_CXX_FLAGS:STRING=${{ matrix.config.cxx_flags }}" \
         -G "Ninja"
 
     - name: Build
