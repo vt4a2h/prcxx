@@ -7,6 +7,7 @@ set(HEADER_LIST
 add_executable(tests
     main.cpp
     PropertyConstructionTest.cpp
+    PropertyComparisonTest.cpp
     test.cpp
     ${HEADER_LIST}
 )
