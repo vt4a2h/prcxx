@@ -1,6 +1,6 @@
 find_package(Catch2 CONFIG REQUIRED)
 
-add_executable(tests test.cpp)
+add_executable(tests main.cpp test.cpp)
 
 target_compile_features(tests PRIVATE cxx_std_20)
 
