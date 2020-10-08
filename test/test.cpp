@@ -4,69 +4,6 @@
 
 #include <prcxx/property.hpp>
 
-TEST_CASE("properties can be constructed") {
-    using namespace prcxx;
-
-    SECTION("default constructor") {
-        property<int> p{};
-
-        REQUIRE_FALSE(p.has_value());
-    }
-
-    SECTION("resolve constructor") {
-        int v = 42;
-        property<int> p(v);
-
-        REQUIRE(*p.get() == 42);
-    }
-
-    SECTION("rvalue reference constructor") {
-        std::string s{"42"};
-        property<std::string> p(std::move(s));
-
-        REQUIRE(*p.get() == "42");
-    }
-
-    SECTION("observable constructor") {
-        property<std::string> p(wrap_invokable([]() -> std::string { return "Hi!"; }));
-
-        REQUIRE(p.has_value());
-    }
-
-
-    SECTION("copy constructor") {
-        property<int> p1(42);
-        property<int> p2(p1); // NOLINT
-
-        REQUIRE(*p1.get() == *p2.get());
-    }
-
-    SECTION("move constructor") {
-        property<std::string> p1("42");
-        property<std::string> p2(std::move(p1));
-
-        REQUIRE(*p2.get() == "42");
-    }
-
-    SECTION("assigment operator") {
-        property<int> p1(42);
-        property<int> p2{};
-
-        p2 = p1;
-
-        REQUIRE(*p1.get() == *p2.get());
-    }
-
-    SECTION("move operator") {
-        property<std::string> p1("42");
-        property<std::string> p2{};
-
-        p2 = std::move(p1);
-
-        REQUIRE(*p2.get() == "42");
-    }
-}
-
 TEST_CASE("properties can be compared") {
     using namespace prcxx;
 
