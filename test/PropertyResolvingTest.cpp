@@ -4,7 +4,7 @@
 
 #include <prcxx/property.hpp>
 
-TEST_CASE("a property can be resolved") {
+TEST_CASE("A property can be resolved") {
     using namespace prcxx;
 
     SECTION("simple resolve") {
@@ -13,7 +13,7 @@ TEST_CASE("a property can be resolved") {
         REQUIRE(*p.get() == "Hi!");
     }
 
-    SECTION("resolve with binding dependency") {
+    SECTION("Resolve with binding dependency") {
         property<std::string> p0(wrap_invokable([]() -> std::string { return "Hello"; }));
 
         property<std::string> p(wrap_invokable(
@@ -28,7 +28,7 @@ TEST_CASE("a property can be resolved") {
         REQUIRE(*p.get() == "No world!");
     }
 
-    SECTION("resolve with value dependency") {
+    SECTION("Resolve with value dependency") {
         property<std::string> p0("Hello");
 
         property<std::string> p(wrap_invokable(
@@ -43,7 +43,7 @@ TEST_CASE("a property can be resolved") {
         REQUIRE(*p.get() == "No world!");
     }
 
-    SECTION("re-evaluates only when some certain properties changed") {
+    SECTION("Re-evaluates only when some certain properties changed") {
         property<std::string> p0("p0");
         property<std::string> p1("p1");
 
