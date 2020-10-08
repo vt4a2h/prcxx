@@ -1,13 +1,11 @@
 #include "catch.hpp"
 
-#include <string>
-
 #include <prcxx/property.hpp>
 
 TEST_CASE("Cycles detection") {
     using namespace prcxx;
 
-    SECTION("There is no value when a cycle detected") {
+    SECTION("There is no value when a cycle is detected") {
         property<int> p1(wrap_invokable([&p1] {
             auto v = p1.get();
 
