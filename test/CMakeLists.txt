@@ -1,6 +1,14 @@
 find_package(Catch2 CONFIG REQUIRED)
 
-add_executable(tests main.cpp test.cpp)
+set(HEADER_LIST
+    "${prcxx_SOURCE_DIR}/test/StringMaker.hpp"
+)
+
+add_executable(tests
+    main.cpp
+    test.cpp
+    ${HEADER_LIST}
+)
 
 target_compile_features(tests PRIVATE cxx_std_20)
 
