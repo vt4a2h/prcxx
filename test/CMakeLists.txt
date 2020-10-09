@@ -10,6 +10,8 @@ add_executable(tests
     PropertyComparisonTest.cpp
     PropertyResolvingTest.cpp
     CycleDetectionTest.cpp
+    ExpectedConstructionTest.cpp
+    ExpectedComparisonTest.cpp
     ${HEADER_LIST}
 )
 
