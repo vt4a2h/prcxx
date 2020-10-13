@@ -1,7 +1,3 @@
-#include "catch.hpp"
-
-#include <string>
-
 //
 // MIT License
 //
@@ -12,6 +8,10 @@
 //
 // See LICENSE file for the further details.
 //
+#include "catch.hpp"
+
+#include <string>
+
 #include <prcxx/property.hpp>
 
 TEST_CASE("A property can be resolved") {
