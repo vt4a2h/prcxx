@@ -12,6 +12,7 @@ add_executable(tests
     CycleDetectionTest.cpp
     ExpectedConstructionTest.cpp
     ExpectedComparisonTest.cpp
+    ValueObserverTest.cpp
     ${HEADER_LIST}
 )
 
