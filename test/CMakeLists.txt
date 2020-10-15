@@ -13,6 +13,7 @@ add_executable(tests
     ExpectedConstructionTest.cpp
     ExpectedComparisonTest.cpp
     ValueObserverTest.cpp
+    InvokableObserverTest.cpp
     ${HEADER_LIST}
 )
 
