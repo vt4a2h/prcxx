@@ -67,14 +67,7 @@ public:
         const auto &l = std::get<Value>(lhs);
         const auto &r = std::get<Value>(rhs);
 
-        if (l > r)
-            return std::partial_ordering::greater;
-        if (l < r)
-            return std::partial_ordering::less;
-        if (l == r)
-            return std::partial_ordering::equivalent;
-
-        return std::partial_ordering::unordered;
+        return l <=> r;
     }
 
     friend bool operator ==(const Expected<Value> &lhs, const Expected<Value> &rhs)
