@@ -48,7 +48,7 @@ struct ValueObserver : public BaseObserver
 
     IObservablePtr clone() const override
     {
-        return std::make_shared<ValueObserver<Value>>(value);
+        return std::make_unique<ValueObserver<Value>>(value);
     }
 
 private:

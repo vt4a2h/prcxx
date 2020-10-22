@@ -92,7 +92,7 @@ struct InvokableObserver : public BaseObserver
     {
         // Leave all other data in the default state
         // (will be re-evaluated upon the first call)
-        return std::make_shared<InvokableObserver<Callable>>(callable);
+        return std::make_unique<InvokableObserver<Callable>>(callable);
     }
 
     std::decay_t<Callable> callable;

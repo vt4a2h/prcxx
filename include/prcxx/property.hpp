@@ -45,7 +45,7 @@ using source_location = SOURCE_LOCATION;
 template <Invokable Observable>
 IObservablePtr wrap_invokable(Observable &&observable)
 {
-    return std::make_shared<
+    return std::make_unique<
         InvokableObserver<std::decay_t<Observable>>>(
             std::forward<Observable>(observable));
 }
@@ -53,7 +53,7 @@ IObservablePtr wrap_invokable(Observable &&observable)
 template <class Value>
 IObservablePtr wrap_value(Value &&value)
 {
-    return std::make_shared<
+    return std::make_unique<
         ValueObserver<std::decay_t<Value>>>(
             std::forward<Value>(value));
 }
