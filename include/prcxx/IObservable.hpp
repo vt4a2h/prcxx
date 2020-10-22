@@ -21,11 +21,13 @@ namespace prcxx {
 
 struct IObservable;
 
-using IObservablePtr = std::shared_ptr<IObservable>;
+using IObservablePtr = std::unique_ptr<IObservable>;
 using IObservableRef = std::reference_wrapper<IObservable>;
 using Observers = std::vector<IObservableRef>;
 
 struct IObservable {
+    virtual ~IObservable() = default;
+
     [[nodiscard]]
     virtual prcxx::Expected<std::any> resolve() = 0;
 
