@@ -45,7 +45,6 @@ jobs:
     - name: Install dependencies (macOS)
       if: startsWith(matrix.config.os, 'macos')
       run: |
-        brew update
         brew install gcc ninja
 
     - name: Install catch2
