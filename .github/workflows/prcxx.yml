@@ -27,10 +27,8 @@ jobs:
             }
           - {
               name: "macOS: build with gcc",
-              os: macos-latest,
-              vcpkg_root: "/usr/local/share/vcpkg",
-              cc: "/usr/local/opt/gcc/bin/gcc-10",
-              cxx: "/usr/local/opt/gcc/bin/g++-10",
+              os: macos-11.0,
+              vcpkg_root: "/usr/local/share/vcpkg"
             }
 
     steps:
