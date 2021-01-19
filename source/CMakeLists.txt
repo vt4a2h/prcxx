@@ -1,3 +1,5 @@
+find_package(fmt CONFIG REQUIRED)
+
 set(HEADER_LIST
     "${prcxx_SOURCE_DIR}/include/prcxx/EvaluationChain.hpp"
     "${prcxx_SOURCE_DIR}/include/prcxx/ActiveEvaluationChain.hpp"
@@ -12,6 +14,8 @@ add_library(prcxx
 )
 
 target_include_directories(prcxx PUBLIC ../include)
+
+target_link_libraries(prcxx PRIVATE fmt::fmt fmt::fmt-header-only)
 
 target_compile_features(prcxx PUBLIC cxx_std_20)
 

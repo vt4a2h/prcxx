@@ -30,6 +30,8 @@
 #    endif
 #endif
 
+#include <fmt/format.h>
+
 #include "Expected.hpp"
 #include "IObservable.hpp"
 #include "EvaluationChain.hpp"
@@ -160,17 +162,7 @@ public:
 private: // Methods
     static Error with_source_location(Error err, const source_location &sl)
     {
-        // NOTE: waiting for std::format...
-        if (!err.text.empty())
-            err.text.append(" (")
-                .append(sl.file_name())
-                .append(":")
-                .append(std::to_string(sl.line()))
-                .append(":")
-                .append(std::to_string(sl.column()))
-                .append(")");
-
-        return std::move(err);
+        return {fmt::format("{} ({}:{}:{})", std::move(err.text), sl.file_name(), sl.line(), sl.column())};
     }
 
     const T &as_ref() const
