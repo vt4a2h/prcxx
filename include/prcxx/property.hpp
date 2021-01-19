@@ -131,7 +131,7 @@ public:
                 return with_source_location(std::get<Error>(std::move(result)), sl);
         }
 
-        return with_source_location(Error{.text = "The property has no value"}, sl);
+        return with_source_location({"The property has no value"}, sl);
     }
 
     [[nodiscard]]
