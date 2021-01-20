@@ -14,12 +14,9 @@
 #include <variant>
 #include <compare>
 
-namespace prcxx {
+#include "Error.hpp"
 
-struct Error
-{
-    std::string text;
-};
+namespace prcxx {
 
 template <class Value>
 class Expected : public std::variant<Value, Error>
