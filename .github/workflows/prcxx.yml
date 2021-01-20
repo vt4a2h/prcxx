@@ -32,11 +32,6 @@ jobs:
             vcpkg_root: "/usr/local/share/vcpkg",
             cc: "gcc-10", cxx: "g++-10"
           }
-        - {
-            name: "macOS: build with the default clang",
-            os: macos-latest,
-            vcpkg_root: "/usr/local/share/vcpkg",
-          }
 
     steps:
     - uses: actions/checkout@v2
