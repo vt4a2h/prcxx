@@ -19,8 +19,6 @@
 #include <string>
 #include <compare>
 
-#include <fmt/format.h>
-
 #include "Expected.hpp"
 #include "IObservable.hpp"
 #include "EvaluationChain.hpp"
@@ -116,10 +114,10 @@ public:
             if (std::holds_alternative<std::any>(result))
                 return std::any_cast<T>(std::get<std::any>(std::move(result)));
             else
-                return with_source_location(std::get<Error>(std::move(result)), sl);
+                return detail::with_source_location(std::get<Error>(std::move(result)), sl);
         }
 
-        return with_source_location({"The property has no value"}, sl);
+        return detail::with_source_location({"The property has no value"}, sl);
     }
 
     [[nodiscard]]
@@ -148,11 +146,6 @@ public:
     }
 
 private: // Methods
-    static Error with_source_location(Error err, const source_location &sl)
-    {
-        return {fmt::format("{} ({}:{}:{})", std::move(err.text), sl.file_name(), sl.line(), sl.column())};
-    }
-
     const T &as_ref() const
     {
         assert(has_value());

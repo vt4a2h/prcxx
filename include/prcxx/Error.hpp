@@ -12,11 +12,19 @@
 
 #include <string>
 
+#include "SourceLocation.hpp"
+
 namespace prcxx {
 
 struct Error
 {
     std::string text;
 };
+
+namespace detail {
+
+    Error with_source_location(Error err, const source_location &sl);
+
+}
 
 } // namespace prcxx

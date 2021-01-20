@@ -12,6 +12,7 @@ add_library(prcxx
     EvaluationChain.cpp
     ActiveEvaluationChain.cpp
     BaseObserver.cpp
+    Error.cpp
     ${HEADER_LIST}
 )
 
