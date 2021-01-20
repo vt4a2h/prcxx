@@ -18,17 +18,6 @@
 #include <stack>
 #include <string>
 #include <compare>
-#ifdef __has_include
-#   if __has_include(<source_location>)
-#       include <source_location>
-#       define SOURCE_LOCATION std::source_location
-#    elif __has_include(<experimental/source_location>)
-#       include <experimental/source_location>
-#       define SOURCE_LOCATION std::experimental::source_location
-#    else
-#       Error: missing <source_location>
-#    endif
-#endif
 
 #include <fmt/format.h>
 
@@ -39,10 +28,9 @@
 #include "BaseObserver.hpp"
 #include "ValueObserver.hpp"
 #include "InvokableObserver.hpp"
+#include "SourceLocation.hpp"
 
 namespace prcxx {
-
-using source_location = SOURCE_LOCATION;
 
 template <Invokable Observable>
 IObservablePtr wrap_invokable(Observable &&observable)

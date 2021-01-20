@@ -5,6 +5,7 @@ set(HEADER_LIST
     "${prcxx_SOURCE_DIR}/include/prcxx/ActiveEvaluationChain.hpp"
     "${prcxx_SOURCE_DIR}/include/prcxx/BaseObserver.hpp"
     "${prcxx_SOURCE_DIR}/include/prcxx/Error.hpp"
+    "${prcxx_SOURCE_DIR}/include/prcxx/SourceLocation.hpp"
 )
 
 add_library(prcxx
