@@ -14,7 +14,7 @@ add_executable(tests
     ExpectedComparisonTest.cpp
     ValueObserverTest.cpp
     InvokableObserverTest.cpp
-    ErrorWithSourceLocation.cpp
+    ErrorWithSourceLocationTest.cpp
     ${HEADER_LIST}
 )
 

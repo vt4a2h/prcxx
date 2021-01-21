@@ -21,6 +21,6 @@ TEST_CASE("Error extensibility") {
         auto with_sl = with_source_location(error, prcxx::source_location::current());
 
         REQUIRE(with_sl.text.starts_with("test error message"));
-        REQUIRE(with_sl.text.ends_with("ErrorWithSourceLocation.cpp:21:0)"));
+        REQUIRE(with_sl.text.ends_with("ErrorWithSourceLocationTest.cpp:21:0)"));
     }
 }
