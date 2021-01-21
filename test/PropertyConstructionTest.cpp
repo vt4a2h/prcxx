@@ -74,4 +74,12 @@ TEST_CASE("Properties can be constructed") {
 
         REQUIRE(*p2.get() == "42");
     }
+
+    SECTION("Assigment operator (value)") {
+        property<int> p(32);
+
+        p = 42;
+
+        REQUIRE(*p.get() == 42);
+    }
 }

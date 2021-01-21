@@ -83,6 +83,12 @@ public:
 
         return *this;
     }
+    property<T> &operator=(const T &v)
+    {
+        set(v);
+
+        return *this;
+    }
 
     ~property() = default;
 
