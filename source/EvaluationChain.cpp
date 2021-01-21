@@ -46,7 +46,7 @@ Error EvaluationChain::extract_last_error()
 {
     Error tmp;
     std::swap(tmp, last_error);
-    return std::move(tmp);
+    return tmp;
 }
 
 Error EvaluationChain::error() const
