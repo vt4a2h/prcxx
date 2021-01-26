@@ -12,7 +12,7 @@
 
 namespace prcxx {
 
-class EvaluationChain;
+struct EvaluationChain;
 
 class ActiveEvaluationChain
 {
