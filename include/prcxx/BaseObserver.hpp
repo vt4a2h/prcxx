@@ -14,7 +14,7 @@
 
 namespace prcxx {
 
-class EvaluationChain;
+struct EvaluationChain;
 
 struct BaseObserver
     : public IObservable
