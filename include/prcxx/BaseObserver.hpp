@@ -16,7 +16,9 @@ namespace prcxx {
 
 class EvaluationChain;
 
-struct BaseObserver : public IObservable
+struct BaseObserver
+    : public IObservable
+    , public std::enable_shared_from_this<BaseObserver>
 {
     BaseObserver() = default;
 
@@ -33,6 +35,8 @@ struct BaseObserver : public IObservable
     void pre_process_active_chain();
 
     void post_process_active_chain();
+
+    IObservableWeakPtr asWeakPtr() noexcept override;
 
 protected:
     std::any value;

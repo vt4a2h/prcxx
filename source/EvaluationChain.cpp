@@ -22,12 +22,12 @@ bool EvaluationChain::contains_error() const
     return !last_error.text.empty();
 }
 
-void EvaluationChain::push(IObservableRef ref)
+void EvaluationChain::push(IObservableWeakPtr ref)
 {
     properties.push(std::move(ref));
 }
 
-IObservableRef EvaluationChain::top()
+IObservableWeakPtr EvaluationChain::top()
 {
     return properties.top();
 }

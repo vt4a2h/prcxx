@@ -46,7 +46,7 @@ struct ValueObserver : public BaseObserver
     // Cannot be dirty
     bool is_dirty() const final { return false; }
 
-    IObservablePtr clone() const override
+    IObservableUniquePtr clone() const override
     {
         return std::make_unique<ValueObserver<Value>>(value);
     }

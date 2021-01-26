@@ -31,7 +31,7 @@
 namespace prcxx {
 
 template <Invokable Observable>
-IObservablePtr wrap_invokable(Observable &&observable)
+IObservableSharedPtr wrap_invokable(Observable &&observable)
 {
     return std::make_unique<
         InvokableObserver<std::decay_t<Observable>>>(
@@ -39,7 +39,7 @@ IObservablePtr wrap_invokable(Observable &&observable)
 }
 
 template <class Value>
-IObservablePtr wrap_value(Value &&value)
+IObservableSharedPtr wrap_value(Value &&value)
 {
     return std::make_unique<
         ValueObserver<std::decay_t<Value>>>(
@@ -59,7 +59,7 @@ public:
         : value(wrap_value(std::move(v)))
     {}
 
-    explicit property(IObservablePtr observable) noexcept
+    explicit property(IObservableSharedPtr observable) noexcept
         : value(std::move(observable))
     {}
 
@@ -139,7 +139,7 @@ public:
         }
     }
 
-    void reset(IObservablePtr observable = nullptr)
+    void reset(IObservableSharedPtr observable = nullptr)
     {
         if (value) {
             value->invalidate();
@@ -160,7 +160,7 @@ private: // Methods
     }
 
 private:
-    IObservablePtr value;
+    IObservableSharedPtr value;
 };
 
 } // prcxx

@@ -21,11 +21,13 @@ namespace prcxx {
 
 struct IObservable;
 
-using IObservablePtr = std::unique_ptr<IObservable>;
-using IObservableRef = std::reference_wrapper<IObservable>;
-using Observers = std::vector<IObservableRef>;
+using IObservableUniquePtr = std::unique_ptr<IObservable>;
+using IObservableSharedPtr = std::shared_ptr<IObservable>;
+using IObservableWeakPtr = std::weak_ptr<IObservable>;
+using Observers = std::vector<IObservableWeakPtr>;
 
-struct IObservable {
+struct IObservable
+{
     virtual ~IObservable() = default;
 
     [[nodiscard]]
@@ -47,7 +49,10 @@ struct IObservable {
     virtual const Observers &get_observers() const = 0;
 
     [[nodiscard]]
-    virtual IObservablePtr clone() const = 0;
+    virtual IObservableUniquePtr clone() const = 0;
+
+    [[nodiscard]]
+    virtual IObservableWeakPtr asWeakPtr() noexcept = 0;
 
     template<class T>
     friend

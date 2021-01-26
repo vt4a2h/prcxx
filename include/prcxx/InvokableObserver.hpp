@@ -88,7 +88,7 @@ struct InvokableObserver : public BaseObserver
         BaseObserver::invalidate();
     }
 
-    IObservablePtr clone() const override
+    IObservableUniquePtr clone() const override
     {
         // Leave all other data in the default state
         // (will be re-evaluated upon the first call)

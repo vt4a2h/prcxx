@@ -25,9 +25,9 @@ struct EvaluationChain
     [[nodiscard]]
     bool contains_error() const;
 
-    void push(IObservableRef ref);
+    void push(IObservableWeakPtr ref);
 
-    IObservableRef top();
+    IObservableWeakPtr top();
     void pop();
 
     void register_error(Error error);
@@ -37,7 +37,7 @@ struct EvaluationChain
     Error error() const;
 
 private:
-    std::stack<IObservableRef> properties;
+    std::stack<IObservableWeakPtr> properties;
     Error last_error;
 };
 
