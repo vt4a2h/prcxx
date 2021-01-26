@@ -47,13 +47,9 @@ jobs:
       run: |
         brew install gcc ninja
 
-    - name: Install catch2
+    - name: Install packages
       working-directory: ${{ env.HOME }}
-      run: vcpkg install catch2
-
-    - name: Install fmt
-      working-directory: ${{ env.HOME }}
-      run: vcpkg install fmt
+      run: vcpkg install catch2 fmt range-v3
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build

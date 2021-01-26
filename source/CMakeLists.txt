@@ -1,4 +1,5 @@
 find_package(fmt CONFIG REQUIRED)
+find_package(range-v3 CONFIG REQUIRED)
 
 set(HEADER_LIST
     "${prcxx_SOURCE_DIR}/include/prcxx/EvaluationChain.hpp"
@@ -19,6 +20,7 @@ add_library(prcxx
 target_include_directories(prcxx PUBLIC ../include)
 
 target_link_libraries(prcxx PRIVATE fmt::fmt fmt::fmt-header-only)
+target_link_libraries(prcxx PRIVATE range-v3 range-v3-meta range-v3::meta range-v3-concepts)
 
 target_compile_features(prcxx PUBLIC cxx_std_20)
 
