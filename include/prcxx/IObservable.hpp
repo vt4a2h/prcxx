@@ -52,7 +52,7 @@ struct IObservable
     virtual IObservableUniquePtr clone() const = 0;
 
     [[nodiscard]]
-    virtual IObservableWeakPtr asWeakPtr() noexcept = 0;
+    virtual IObservableWeakPtr as_weak_ptr() noexcept = 0;
 
     template<class T>
     friend

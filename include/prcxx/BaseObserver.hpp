@@ -36,7 +36,7 @@ struct BaseObserver
 
     void post_process_active_chain();
 
-    IObservableWeakPtr asWeakPtr() noexcept override;
+    IObservableWeakPtr as_weak_ptr() noexcept override;
 
 protected:
     std::any value;

@@ -59,7 +59,7 @@ namespace prcxx {
             if (auto top = active_chain().top(); !top.expired())
                 observers.emplace_back(top);
         } else {
-            active_chain().push(this->asWeakPtr());
+            active_chain().push(this->as_weak_ptr());
         }
     }
 
@@ -69,7 +69,7 @@ namespace prcxx {
             active_chain().pop();
     }
 
-    IObservableWeakPtr BaseObserver::asWeakPtr() noexcept
+    IObservableWeakPtr BaseObserver::as_weak_ptr() noexcept
     {
         return this->weak_from_this();
     }
