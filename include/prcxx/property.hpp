@@ -119,6 +119,12 @@ public:
         return result.has_value() ? result.value() : T();
     }
 
+    T operator*() const
+        requires std::is_destructible_v<T>
+    {
+        return static_cast<T>(*this);
+    }
+
     [[nodiscard]]
     Expected<T> get(const source_location &sl = source_location::current()) const
     {

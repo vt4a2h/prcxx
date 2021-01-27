@@ -23,14 +23,26 @@ TEST_CASE("Property can be casted") {
         REQUIRE(static_cast<int>(p) == 42);
     }
 
-    SECTION("Invalid property returns default result") {
-        struct Foo {
-            enum class Tag { SomeState, Default };
-            Tag tag = Tag::Default;
-        };
+    struct Foo {
+        enum class Tag { SomeState, Default };
+        Tag tag = Tag::Default;
+    };
 
+    SECTION("Invalid property returns default result") {
         property<Foo> p;
 
         REQUIRE(static_cast<Foo>(p).tag == Foo::Tag::Default);
+    }
+
+    SECTION("Operator *") {
+        property<int> p{42};
+
+        REQUIRE(*p == 42);
+    }
+
+    SECTION("Operator * returns default result for the invalid property") {
+        property<Foo> p;
+
+        REQUIRE((*p).tag == Foo::Tag::Default);
     }
 }
