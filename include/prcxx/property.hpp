@@ -112,6 +112,13 @@ public:
         return std::is_eq(lhs <=> rhs);
     }
 
+    explicit operator T() const
+        requires std::is_destructible_v<T>
+    {
+        auto result = get();
+        return result.has_value() ? result.value() : T();
+    }
+
     [[nodiscard]]
     Expected<T> get(const source_location &sl = source_location::current()) const
     {

@@ -15,6 +15,7 @@ add_executable(tests
     ValueObserverTest.cpp
     InvokableObserverTest.cpp
     ErrorWithSourceLocationTest.cpp
+        PropertyCastTest.cpp
     ${HEADER_LIST}
 )
 
