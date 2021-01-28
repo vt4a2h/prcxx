@@ -7,6 +7,7 @@ set(HEADER_LIST
     "${prcxx_SOURCE_DIR}/include/prcxx/BaseObserver.hpp"
     "${prcxx_SOURCE_DIR}/include/prcxx/Error.hpp"
     "${prcxx_SOURCE_DIR}/include/prcxx/SourceLocation.hpp"
+    "${prcxx_SOURCE_DIR}/include/prcxx/DecoratableBase.hpp"
 )
 
 add_library(prcxx
@@ -14,6 +15,7 @@ add_library(prcxx
     ActiveEvaluationChain.cpp
     BaseObserver.cpp
     Error.cpp
+    DecoratableBase.cpp
     ${HEADER_LIST}
 )
 
