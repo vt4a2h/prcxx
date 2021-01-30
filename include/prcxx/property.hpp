@@ -27,6 +27,7 @@
 #include "ValueObserver.hpp"
 #include "InvokableObserver.hpp"
 #include "SourceLocation.hpp"
+#include "DecoratableBase.hpp"
 
 namespace prcxx {
 
@@ -46,8 +47,8 @@ IObservableSharedPtr wrap_value(Value &&value)
             std::forward<Value>(value));
 }
 
-template <class T>
-class property
+template <class T, class G = std::function<T(const T&)>>
+class property : public DecoratableBase<T, G>
 {
 public:
     property() = default;
@@ -63,36 +64,42 @@ public:
         : value(std::move(observable))
     {}
 
-    property(const property<T>& v)
-        : value(v.value->clone())
-    {}
-    property(property<T>&& v) noexcept
-        : value(std::move(v.value))
-    {}
-    property<T> &operator=(const property<T> &v)
+    property(const property<T, G>& v)
     {
-        if (&v != this)
+        operator=(v);
+    }
+
+    property(property<T, G>&& v) noexcept
+    {
+        operator=(std::move(v));
+    }
+
+    property<T, G> &operator=(const property<T, G> &v)
+    {
+        if (&v != this) {
             this->value = v.value->clone();
+            this->copy_decorators_from(v);
+        }
 
         return *this;
     }
-    property<T> &operator=(property<T> &&v) noexcept
+    property<T, G> &operator=(property<T, G> &&v) noexcept
     {
-        if (&v != this)
+        if (&v != this) {
             this->value = std::move(v.value);
+            this->move_decorators_from(std::move(v));
+        }
 
         return *this;
     }
-    property<T> &operator=(const T &v)
+    property<T, G> &operator=(const T &v)
     {
         set(v);
 
         return *this;
     }
 
-    ~property() = default;
-
-    friend constexpr std::partial_ordering operator<=>(const property<T> &lhs, const property<T> &rhs)
+    friend constexpr std::partial_ordering operator<=>(const property<T, G> &lhs, const property<T, G> &rhs)
     {
         if (!lhs.has_value() && !rhs.has_value())
             return std::partial_ordering::equivalent;
@@ -107,7 +114,7 @@ public:
         return lhs.get() <=> rhs.get();
     }
 
-    friend bool operator ==(const property<T> &lhs, const property<T> &rhs)
+    friend bool operator ==(const property<T, G> &lhs, const property<T, G> &rhs)
     {
         return std::is_eq(lhs <=> rhs);
     }
@@ -131,7 +138,7 @@ public:
         if (has_value()) {
             auto result = value->resolve();
             if (std::holds_alternative<std::any>(result))
-                return std::any_cast<T>(std::get<std::any>(std::move(result)));
+                return wrap_result(std::any_cast<T>(std::get<std::any>(std::move(result))));
             else
                 return detail::with_source_location(std::get<Error>(std::move(result)), sl);
         }
@@ -165,6 +172,11 @@ public:
     }
 
 private: // Methods
+    T wrap_result(const T &r) const
+    {
+        return this->has_getter() ? std::invoke(this->getter(), r) : r;
+    }
+
     const T &as_ref() const
     {
         assert(has_value());

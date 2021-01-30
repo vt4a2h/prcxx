@@ -15,7 +15,6 @@ add_library(prcxx
     ActiveEvaluationChain.cpp
     BaseObserver.cpp
     Error.cpp
-    DecoratableBase.cpp
     ${HEADER_LIST}
 )
 

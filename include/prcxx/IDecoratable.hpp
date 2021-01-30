@@ -15,8 +15,9 @@
 
 namespace prcxx {
 
-using Getter = std::function<std::any(std::any)>;
 
+
+template <class T>
 class IDecoratable {
 public:
     virtual ~IDecoratable() = default;
@@ -25,9 +26,9 @@ public:
     virtual bool has_getter() const noexcept = 0;
 
     [[nodiscard]]
-    virtual Getter getter() const noexcept = 0;
+    virtual Getter<T> getter() const noexcept = 0;
 
-    virtual void set_getter(Getter getter) noexcept = 0;
+    virtual void set_getter(Getter<T> getter) noexcept = 0;
 
     virtual void reset_getter() noexcept = 0;
 };

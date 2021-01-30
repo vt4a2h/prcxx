@@ -54,7 +54,7 @@ struct IObservable
     [[nodiscard]]
     virtual IObservableWeakPtr as_weak_ptr() noexcept = 0;
 
-    template<class T>
+    template<class T, class G>
     friend class property;
 
 private:

@@ -10,19 +10,49 @@
 //
 #pragma once
 
-#include "IDecoratable.hpp"
+#include <functional>
+#include <functional>
 
 namespace prcxx {
 
-class DecoratableBase : public IDecoratable {
+template <class Value, class Getter = std::function<Value(const Value&)>>
+    requires std::is_invocable_r_v<std::decay_t<Value>, Getter, std::decay_t<Value>>
+class DecoratableBase {
 public:
-    bool has_getter() const noexcept override;
+    virtual ~DecoratableBase() = default;
 
-    Getter getter() const noexcept override;
+    [[nodiscard]]
+    bool has_getter() const noexcept
+    {
+        return !!m_getter;
+    }
 
-    void set_getter(Getter getter) noexcept override;
+    [[nodiscard]]
+    Getter getter() const noexcept
+    {
+        return m_getter;
+    }
 
-    void reset_getter() noexcept override;
+    void set_getter(const Getter &getter)
+    {
+        m_getter = getter;
+    }
+
+    void reset_getter() noexcept
+        requires std::is_default_constructible_v<Getter>
+    {
+        m_getter = {};
+    }
+
+    void copy_decorators_from(const DecoratableBase &src) noexcept
+    {
+        m_getter = src.getter();
+    }
+
+    void move_decorators_from(DecoratableBase &&src) noexcept
+    {
+        m_getter = std::move(src.m_getter);
+    }
 
 private:
     Getter m_getter;
