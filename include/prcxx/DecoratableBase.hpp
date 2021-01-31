@@ -15,7 +15,10 @@
 
 namespace prcxx {
 
-template <class Value, class Getter = std::function<Value(const Value&)>>
+template <class Value>
+using DefaultGetter = std::function<Value(const Value&)>;
+
+template <class Value, class Getter = DefaultGetter<Value>>
     requires std::is_invocable_r_v<std::decay_t<Value>, Getter, std::decay_t<Value>>
 class DecoratableBase {
 public:
