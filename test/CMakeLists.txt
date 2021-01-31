@@ -12,8 +12,8 @@ add_executable(tests
     CycleDetectionTest.cpp
     ExpectedConstructionTest.cpp
     ExpectedComparisonTest.cpp
-    ValueObserverTest.cpp
-    InvokableObserverTest.cpp
+        ValueObservableTest.cpp
+        InvokableObservableTest.cpp
     ErrorWithSourceLocationTest.cpp
     PropertyCastTest.cpp
     PropertyGetterTest.cpp
