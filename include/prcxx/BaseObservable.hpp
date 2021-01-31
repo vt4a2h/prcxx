@@ -16,13 +16,13 @@ namespace prcxx {
 
 struct EvaluationChain;
 
-struct BaseObserver
+struct BaseObservable
     : public IObservable
-    , public std::enable_shared_from_this<BaseObserver>
+    , public std::enable_shared_from_this<BaseObservable>
 {
-    BaseObserver() = default;
+    BaseObservable() = default;
 
-    explicit BaseObserver(std::any v);
+    explicit BaseObservable(std::any v);
 
     const Observers &get_observers() const final;
 

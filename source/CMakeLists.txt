@@ -4,7 +4,7 @@ find_package(range-v3 CONFIG REQUIRED)
 set(HEADER_LIST
     "${prcxx_SOURCE_DIR}/include/prcxx/EvaluationChain.hpp"
     "${prcxx_SOURCE_DIR}/include/prcxx/ActiveEvaluationChain.hpp"
-    "${prcxx_SOURCE_DIR}/include/prcxx/BaseObserver.hpp"
+    "${prcxx_SOURCE_DIR}/include/prcxx/BaseObservable.hpp"
     "${prcxx_SOURCE_DIR}/include/prcxx/Error.hpp"
     "${prcxx_SOURCE_DIR}/include/prcxx/SourceLocation.hpp"
     "${prcxx_SOURCE_DIR}/include/prcxx/DecoratableBase.hpp"
@@ -13,7 +13,7 @@ set(HEADER_LIST
 add_library(prcxx
     EvaluationChain.cpp
     ActiveEvaluationChain.cpp
-    BaseObserver.cpp
+    BaseObservable.cpp
     Error.cpp
     ${HEADER_LIST}
 )

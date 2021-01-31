@@ -10,19 +10,19 @@
 //
 #pragma once
 
-#include "prcxx/BaseObserver.hpp"
+#include "prcxx/BaseObservable.hpp"
 
 namespace prcxx {
 
 template <class Value>
-struct ValueObserver : public BaseObserver
+struct ValueObservable : public BaseObservable
 {
-    explicit ValueObserver(const std::any &v)
-            : BaseObserver(v)
+    explicit ValueObservable(const std::any &v)
+            : BaseObservable(v)
     {}
 
-    explicit ValueObserver(std::any &&v) noexcept
-            : BaseObserver(std::move(v))
+    explicit ValueObservable(std::any &&v) noexcept
+            : BaseObservable(std::move(v))
     {}
 
     [[nodiscard]]
@@ -48,7 +48,7 @@ struct ValueObserver : public BaseObserver
 
     IObservableUniquePtr clone() const override
     {
-        return std::make_unique<ValueObserver<Value>>(value);
+        return std::make_unique<ValueObservable<Value>>(value);
     }
 
 private:

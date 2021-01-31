@@ -10,7 +10,7 @@
 //
 #pragma once
 
-#include "prcxx/BaseObserver.hpp"
+#include "prcxx/BaseObservable.hpp"
 #include "prcxx/EvaluationChain.hpp"
 #include "prcxx/Concepts.hpp"
 
@@ -26,13 +26,13 @@ template <Invokable F> ScopedFuncInvoker(F)
 -> ScopedFuncInvoker<std::decay_t<F>>;
 
 template <Invokable Callable>
-struct InvokableObserver : public BaseObserver
+struct InvokableObservable : public BaseObservable
 {
-    explicit InvokableObserver(const Callable &v)
+    explicit InvokableObservable(const Callable &v)
         : callable(v)
     {}
 
-    explicit InvokableObserver(Callable &&v) noexcept
+    explicit InvokableObservable(Callable &&v) noexcept
         : callable(std::move(v))
     {}
 
@@ -85,14 +85,14 @@ struct InvokableObserver : public BaseObserver
     void invalidate() final
     {
         dirty = true;
-        BaseObserver::invalidate();
+        BaseObservable::invalidate();
     }
 
     IObservableUniquePtr clone() const override
     {
         // Leave all other data in the default state
         // (will be re-evaluated upon the first call)
-        return std::make_unique<InvokableObserver<Callable>>(callable);
+        return std::make_unique<InvokableObservable<Callable>>(callable);
     }
 
     std::decay_t<Callable> callable;

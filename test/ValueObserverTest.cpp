@@ -10,27 +10,27 @@
 //
 #include "catch.hpp"
 
-#include <prcxx/ValueObserver.hpp>
+#include <prcxx/ValueObservable.hpp>
 
-TEST_CASE("ValueObserver implementation") {
+TEST_CASE("ValueObservable implementation") {
     using namespace prcxx;
 
     SECTION("Constructor by ref") {
         auto any = std::make_any<int>(42);
-        ValueObserver<int> obs(any);
+        ValueObservable<int> obs(any);
 
         REQUIRE(std::any_cast<int>(obs.resolve().value()) == 42);
     }
 
     SECTION("Constructor from rvalue") {
         auto any = std::make_any<int>(42);
-        ValueObserver<int> obs(std::move(any));
+        ValueObservable<int> obs(std::move(any));
 
         REQUIRE(std::any_cast<int>(obs.resolve().value()) == 42);
     }
 
     SECTION("Resolve") {
-        ValueObserver<int> obs(std::make_any<int>(42));
+        ValueObservable<int> obs(std::make_any<int>(42));
 
         auto result = obs.resolve();
 
@@ -41,7 +41,7 @@ TEST_CASE("ValueObserver implementation") {
     }
 
     SECTION("Update") {
-        ValueObserver<int> obs(std::make_any<int>(42));
+        ValueObservable<int> obs(std::make_any<int>(42));
 
         obs.update(24);
 
@@ -49,15 +49,15 @@ TEST_CASE("ValueObserver implementation") {
     }
 
     SECTION("Always mutable") {
-        REQUIRE(ValueObserver<int>(std::make_any<int>(42)).is_mutable());
+        REQUIRE(ValueObservable<int>(std::make_any<int>(42)).is_mutable());
     }
 
     SECTION("Never dirty") {
-        REQUIRE_FALSE(ValueObserver<int>(std::make_any<int>(42)).is_dirty());
+        REQUIRE_FALSE(ValueObservable<int>(std::make_any<int>(42)).is_dirty());
     }
 
     SECTION("Can be cloned") {
-        ValueObserver<int> obs1(std::make_any<int>(42));
+        ValueObservable<int> obs1(std::make_any<int>(42));
         auto obs2 = obs1.clone();
 
         REQUIRE(std::any_cast<int>(obs1.resolve().value()) ==

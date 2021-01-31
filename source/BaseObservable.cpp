@@ -8,7 +8,7 @@
 //
 // See LICENSE file for the further details.
 //
-#include "prcxx/BaseObserver.hpp"
+#include "prcxx/BaseObservable.hpp"
 #include "prcxx/ActiveEvaluationChain.hpp"
 #include "prcxx/EvaluationChain.hpp"
 
@@ -25,34 +25,34 @@ namespace prcxx {
 
     static const auto validObservers = rv::filter([](auto &&o) { return !o.expired(); });
 
-    BaseObserver::BaseObserver(std::any v)
+    BaseObservable::BaseObservable(std::any v)
             : value(std::move(v))
     {}
 
-    const Observers &BaseObserver::get_observers() const
+    const Observers &BaseObservable::get_observers() const
     {
         return this->observers;
     }
 
-    void BaseObserver::copy_observers_from(const IObservable &observable)
+    void BaseObservable::copy_observers_from(const IObservable &observable)
     {
         auto src = observable.get_observers() | validObservers;
         observers.reserve(r::distance(src) + observers.size());
         ra::push_back(observers, src);
     }
 
-    void BaseObserver::invalidate()
+    void BaseObservable::invalidate()
     {
         auto toRefs = rv::transform([](auto &&o) { return o.lock().get(); });
         r::for_each(observers | validObservers | toRefs, &IObservable::invalidate);
     }
 
-    EvaluationChain &BaseObserver::active_chain()
+    EvaluationChain &BaseObservable::active_chain()
     {
         return ActiveEvaluationChain::get();
     }
 
-    void BaseObserver::pre_process_active_chain()
+    void BaseObservable::pre_process_active_chain()
     {
         observers.clear();
         if (!active_chain().empty()) {
@@ -63,13 +63,13 @@ namespace prcxx {
         }
     }
 
-    void BaseObserver::post_process_active_chain()
+    void BaseObservable::post_process_active_chain()
     {
         if (auto wr = active_chain().top(); !wr.expired() && wr.lock().get() == this)
             active_chain().pop();
     }
 
-    IObservableWeakPtr BaseObserver::as_weak_ptr() noexcept
+    IObservableWeakPtr BaseObservable::as_weak_ptr() noexcept
     {
         return this->weak_from_this();
     }

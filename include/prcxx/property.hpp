@@ -23,9 +23,9 @@
 #include "IObservable.hpp"
 #include "EvaluationChain.hpp"
 #include "ActiveEvaluationChain.hpp"
-#include "BaseObserver.hpp"
-#include "ValueObserver.hpp"
-#include "InvokableObserver.hpp"
+#include "BaseObservable.hpp"
+#include "ValueObservable.hpp"
+#include "InvokableObservable.hpp"
 #include "SourceLocation.hpp"
 #include "DecoratableBase.hpp"
 
@@ -35,7 +35,7 @@ template <Invokable Observable>
 IObservableSharedPtr wrap_invokable(Observable &&observable)
 {
     return std::make_unique<
-        InvokableObserver<std::decay_t<Observable>>>(
+        InvokableObservable<std::decay_t<Observable>>>(
             std::forward<Observable>(observable));
 }
 
@@ -43,7 +43,7 @@ template <class Value>
 IObservableSharedPtr wrap_value(Value &&value)
 {
     return std::make_unique<
-        ValueObserver<std::decay_t<Value>>>(
+        ValueObservable<std::decay_t<Value>>>(
             std::forward<Value>(value));
 }
 

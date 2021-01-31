@@ -10,31 +10,31 @@
 //
 #include "catch.hpp"
 
-#include <prcxx/InvokableObserver.hpp>
+#include <prcxx/InvokableObservable.hpp>
 
-TEST_CASE("InvokableObserver implementation") {
+TEST_CASE("InvokableObservable implementation") {
     using namespace prcxx;
 
     SECTION("Constructed by value") {
         auto l = []{ return 42; };
 
-        InvokableObserver obs(l);
+        InvokableObservable obs(l);
 
         REQUIRE(l() == std::any_cast<int>(obs.resolve().value()));
     }
 
     SECTION("Constructed from tmp object") {
-        InvokableObserver obs([]{ return 42; });
+        InvokableObservable obs([]{ return 42; });
 
         REQUIRE(std::any_cast<int>(obs.resolve().value()) == 42);
     }
 
     SECTION("Is always immutable") {
-        REQUIRE_FALSE(InvokableObserver([]{ return 42; }).is_mutable());
+        REQUIRE_FALSE(InvokableObservable([]{ return 42; }).is_mutable());
     }
 
     SECTION("Can be invalidated") {
-        InvokableObserver obs([]{ return 42; });
+        InvokableObservable obs([]{ return 42; });
 
         auto val = obs.resolve();
 
@@ -49,7 +49,7 @@ TEST_CASE("InvokableObserver implementation") {
     SECTION("Evaluated only once") {
         int counter = 0;
 
-        InvokableObserver obs([&counter]{ ++counter; return 42; });
+        InvokableObservable obs([&counter]{ ++counter; return 42; });
 
         REQUIRE(std::any_cast<int>(obs.resolve().value()) == 42);
         REQUIRE(std::any_cast<int>(obs.resolve().value()) == 42);
@@ -58,7 +58,7 @@ TEST_CASE("InvokableObserver implementation") {
     }
 
     SECTION("Can be cloned") {
-        InvokableObserver obs1([]{ return 42; });
+        InvokableObservable obs1([]{ return 42; });
         auto obs2 = obs1.clone();
 
         REQUIRE(std::any_cast<int>(obs1.resolve().value()) ==
