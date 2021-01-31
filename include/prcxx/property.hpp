@@ -53,6 +53,11 @@ class property : public DecoratableBase<T, G, S>
 public:
     property() = default;
 
+    ~property()
+    {
+        reset();
+    }
+
     explicit property(const T& v)
         : value(wrap_value(v))
     {}

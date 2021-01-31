@@ -88,4 +88,22 @@ TEST_CASE("A property can be resolved") {
         REQUIRE(*p.get() == "p0");
         REQUIRE(counter == 3);
     }
+
+    SECTION("Re-evaluates when at least one of observable items removed") {
+        auto p1 = std::make_unique<property<int>>(42);
+
+        int counter = 0;
+        property<int> p2{wrap_invokable([&p1, &counter]{
+            ++counter;
+            return p1 ? **p1 : -1;
+        })};
+
+        REQUIRE(*p2 == 42);
+        REQUIRE(counter == 1);
+
+        p1.reset();
+
+        REQUIRE(*p2 == -1);
+        REQUIRE(counter == 2);
+    }
 }
