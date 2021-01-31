@@ -47,8 +47,8 @@ IObservableSharedPtr wrap_value(Value &&value)
             std::forward<Value>(value));
 }
 
-template <class T, class G = std::function<T(const T&)>>
-class property : public DecoratableBase<T, G>
+template <class T, class G = DefaultGetter<T>, class S = DefaultSetter<T>>
+class property : public DecoratableBase<T, G, S>
 {
 public:
     property() = default;
@@ -64,17 +64,17 @@ public:
         : value(std::move(observable))
     {}
 
-    property(const property<T, G>& v)
+    property(const property<T, G, S>& v)
     {
         operator=(v);
     }
 
-    property(property<T, G>&& v) noexcept
+    property(property<T, G, S>&& v) noexcept
     {
         operator=(std::move(v));
     }
 
-    property<T, G> &operator=(const property<T, G> &v)
+    property<T, G, S> &operator=(const property<T, G, S> &v)
     {
         if (&v != this) {
             this->value = v.value->clone();
@@ -83,7 +83,7 @@ public:
 
         return *this;
     }
-    property<T, G> &operator=(property<T, G> &&v) noexcept
+    property<T, G, S> &operator=(property<T, G, S> &&v) noexcept
     {
         if (&v != this) {
             this->value = std::move(v.value);
@@ -92,14 +92,14 @@ public:
 
         return *this;
     }
-    property<T, G> &operator=(const T &v)
+    property<T, G, S> &operator=(const T &v)
     {
         set(v);
 
         return *this;
     }
 
-    friend constexpr std::partial_ordering operator<=>(const property<T, G> &lhs, const property<T, G> &rhs)
+    friend constexpr std::partial_ordering operator<=>(const property<T, G, S> &lhs, const property<T, G, S> &rhs)
     {
         if (!lhs.has_value() && !rhs.has_value())
             return std::partial_ordering::equivalent;
@@ -114,7 +114,7 @@ public:
         return lhs.get() <=> rhs.get();
     }
 
-    friend bool operator ==(const property<T, G> &lhs, const property<T, G> &rhs)
+    friend bool operator ==(const property<T, G, S> &lhs, const property<T, G, S> &rhs)
     {
         return std::is_eq(lhs <=> rhs);
     }
@@ -153,9 +153,9 @@ public:
     {
         if (has_value()) {
             if (value->is_mutable())
-                value->update(v);
+                value->update(wrap_value_to_set(v));
         } else {
-            value = wrap_value(v);
+            value = wrap_value(wrap_value_to_set(v));
         }
     }
 
@@ -175,6 +175,11 @@ private: // Methods
     T wrap_result(const T &r) const
     {
         return this->has_getter() ? std::invoke(this->getter(), r) : r;
+    }
+
+    T wrap_value_to_set(const T &v) const
+    {
+        return this->has_setter() ? std::invoke(this->setter(), v) : v;
     }
 
     const T &as_ref() const
