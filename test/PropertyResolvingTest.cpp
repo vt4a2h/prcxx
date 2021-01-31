@@ -20,7 +20,7 @@ TEST_CASE("A property can be resolved") {
     SECTION("simple resolve") {
         property<std::string> p(wrap_invokable([]() -> std::string { return "Hi!"; }));
 
-        REQUIRE(*p.get() == "Hi!");
+        REQUIRE(*p == "Hi!");
     }
 
     SECTION("Resolve with binding dependency") {
@@ -28,14 +28,14 @@ TEST_CASE("A property can be resolved") {
 
         property<std::string> p(wrap_invokable(
                 [&p0]() -> std::string {
-                    return *p0.get() + " world!";
+                    return *p0 + " world!";
                 }));
 
-        REQUIRE(*p.get() == "Hello world!");
+        REQUIRE(*p == "Hello world!");
 
         p0.reset(wrap_value(std::string("No")));
 
-        REQUIRE(*p.get() == "No world!");
+        REQUIRE(*p == "No world!");
     }
 
     SECTION("Resolve with value dependency") {
@@ -43,14 +43,14 @@ TEST_CASE("A property can be resolved") {
 
         property<std::string> p(wrap_invokable(
                 [&p0]() -> std::string {
-                    return *p0.get() + " world!";
+                    return *p0 + " world!";
                 }));
 
-        REQUIRE(*p.get() == "Hello world!");
+        REQUIRE(*p == "Hello world!");
 
         p0.set("No");
 
-        REQUIRE(*p.get() == "No world!");
+        REQUIRE(*p == "No world!");
     }
 
     SECTION("Re-evaluates only when some certain properties changed") {
@@ -61,31 +61,31 @@ TEST_CASE("A property can be resolved") {
         property<std::string> p(wrap_invokable([&] {
             ++counter;
 
-            auto p0_val = *p0.get();
+            auto p0_val = *p0;
             if (p0_val == "p0")
                 return p0_val;
 
-            return *p1.get();
+            return *p1;
         }));
 
         REQUIRE(counter == 0);
 
-        REQUIRE(*p.get() == "p0");
+        REQUIRE(*p == "p0");
         REQUIRE(counter == 1);
 
         p1.set("~p1");
 
-        REQUIRE(*p.get() == "p0");
+        REQUIRE(*p == "p0");
         REQUIRE(counter == 1);
 
         p0.set("~p0");
 
-        REQUIRE(*p.get() == "~p1");
+        REQUIRE(*p == "~p1");
         REQUIRE(counter == 2);
 
         p0.set("p0");
 
-        REQUIRE(*p.get() == "p0");
+        REQUIRE(*p == "p0");
         REQUIRE(counter == 3);
     }
 
