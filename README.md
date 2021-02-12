@@ -41,3 +41,20 @@ assert(counter == 3);
 ```
 
 You can find more examples [here](https://github.com/vt4a2h/prcxx/tree/master/test).
+
+# Build instructions
+```sh
+# Install package manager
+git clone https://github.com/microsoft/vcpkg
+./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+./vcpkg/install catch2 fmt range-v3
+
+# Build library
+git clone git@github.com:vt4a2h/prcxx.git
+cmake -B prcxx/build -S prcxx -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake -G "Ninja"
+cmake --build prcxx/build
+
+# Run tests (optional)
+cd prxcc/build
+ctest
+```
